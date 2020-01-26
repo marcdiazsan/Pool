@@ -3,6 +3,7 @@ from pygame.locals import*
 from random import randint
 from Ball import Ball,Choques
 from Player import Player
+from Cue import Cue
 import numpy as np
 import math
 
@@ -10,9 +11,12 @@ import math
 blanco=(255,255,255)
 amarillo=(255,128,0)
 rojo=(255,0,0)
+Color = (150,70,0)
 verdeMesa=(0,143,57)
 verdePared=(40,114,51)
 radio=14
+lenghtCue=320
+widthCue=9
 #Ventana del Juego
 pygame.init()
 ventana = pygame.display.set_mode((1200, 600))
@@ -33,27 +37,41 @@ lado4= pygame.Rect(0,580,1200,20)
 elementos= pygame.sprite.Group()
 
 #Introduciendo las bolas 
-bolaBlanca= Ball(blanco,radio,11.0,7.0)
-bolaBlanca.rect.x = 345
-bolaBlanca.rect.y = 105
+bolaBlanca= Ball(blanco,radio,11.0,7.0,345,105)
 elementos.add(bolaBlanca)
 
-bolaAmarilla= Ball(amarillo,radio,-8.0,-12.0)
-bolaAmarilla.rect.x = 345
-bolaAmarilla.rect.y = 245
+bolaAmarilla= Ball(amarillo,radio,-8.0,-12.0,345,245)
 elementos.add(bolaAmarilla)
 
-bolaRoja= Ball(rojo,radio,5.0,15.0)
-bolaRoja.rect.x = 1000
-bolaRoja.rect.y = 500
+bolaRoja= Ball(rojo,radio,5.0,15.0,1000,500)
 elementos.add(bolaRoja)
+
+tacoBillar=Cue(Color,lenghtCue,widthCue,bolaAmarilla,100,100)
+#tacoBillar.rect.x = bolaRoja.rect.x
+#tacoBillar.rect.y = bolaRoja.rect.y
+
+
 
 bolaJugador=bolaBlanca
 bolas=[bolaBlanca,bolaAmarilla,bolaRoja]
 
 countCarambola=0
-    
 while carryOn:
+    ventana.fill(verdeMesa)
+    tacoBillar.Draw(ventana)
+    pygame.draw.rect(ventana,verdePared, lado1)
+    pygame.draw.rect(ventana,verdePared, lado2)
+    pygame.draw.rect(ventana,verdePared, lado3)
+    pygame.draw.rect(ventana,verdePared, lado4)
+        
+    pygame.display.update()
+    elementos.draw(ventana)
+    pygame.display.flip()
+    clock.tick(40)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            carryOn=False
+"""while carryOn:
     if bolaBlanca.mag_vel<=0.05 and bolaAmarilla.mag_vel<=0.05 and bolaRoja.mag_vel<=0.05:
         carryOn=False
     else:
@@ -81,10 +99,8 @@ while carryOn:
                         bolas[i].hit+=1
                         bolas[j].hit+=1
                         
-   
-    ventana.fill(verdeMesa)
 
-        #dibujando todo
+    ventana.fill(verdeMesa)
     pygame.draw.rect(ventana,verdePared, lado1)
     pygame.draw.rect(ventana,verdePared, lado2)
     pygame.draw.rect(ventana,verdePared, lado3)
@@ -110,7 +126,7 @@ for bola in bolas:
         c+=1
 if c==0 and bolaJugador.wall>=3:
     countCarambola+=1
-print(countCarambola)
+print(countCarambola)"""
 
 pygame.quit()
 

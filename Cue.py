@@ -2,26 +2,34 @@ import pygame
 import numpy as np
 import math
 Negro = (0,0,0)
-friction_coeff =0.05
+Color = (200,200,200)
+
 
  #definiendo la clase Cue
 class Cue(pygame.sprite.Sprite):
     
-    def __init__(self, color, radio, vel_x, vel_y):
+    def __init__(self,color, lenght,width, ball,pos_x,pos_y):
         super().__init__()
-        
-        self.image = pygame.Surface([2*radio, 2*radio])
-        self.image.fill(Negro)
-        self.image.set_colorkey(Negro)
-        pygame.draw.circle(self.image,color,[radio,radio],radio)
-        self.velocity = np.array([vel_x,vel_y])
-        self.mag_vel= math.sqrt(vel_x**2+vel_y**2)
-        self.rect = self.image.get_rect()
-        self.centerPosition= np.array([self.rect.x+radio, self.rect.y+radio])
-        self.wall = 0
-        self.hit = 0
-        
-    def update(self):
+        self.color = color
+        self.lenght= lenght
+        self.width = width
+        self.target_ball=ball
+
+    def Draw(self,screen):
+        Mouse_x, Mouse_y = pygame.mouse.get_pos()
+        Ball_x=self.target_ball.centerPosition[0]
+        Ball_y=self.target_ball.centerPosition[1]
+        a = np.array([Ball_x-Mouse_x,Ball_y-Mouse_y])
+        theta=math.pi-math.acos((Ball_x-Mouse_x)/(math.sqrt(a[0]**2+a[1]**2)))
+        if Ball_y>Mouse_y:
+            start=np.array([Ball_x+math.cos(theta)*23,Ball_y-math.sin(theta)*23])
+            end=np.array([Ball_x+math.cos(theta)*self.lenght,Ball_y-math.sin(theta)*self.lenght])
+        else:
+            start=np.array([Ball_x+math.cos(theta)*23,Ball_y+math.sin(theta)*23])
+            end=np.array([Ball_x+math.cos(theta)*self.lenght,Ball_y+math.sin(theta)*self.lenght])
+        pygame.draw.line(screen,self.color,(end[0],end[1]),(start[0],start[1]), self.width)
+
+    def Golpear(self):
         norma = math.sqrt(self.velocity[0]**2+self.velocity[1]**2)
         cte=1-(friction_coeff)/(2*norma)
         cte2=1-(friction_coeff)/(norma)
