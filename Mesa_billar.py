@@ -37,13 +37,13 @@ lado4= pygame.Rect(0,580,1200,20)
 elementos= pygame.sprite.Group()
 
 #Introduciendo las bolas 
-bolaBlanca= Ball(blanco,radio,11.0,7.0,345,105)
+bolaBlanca= Ball(blanco,radio,0,0,345,105)
 elementos.add(bolaBlanca)
 
-bolaAmarilla= Ball(amarillo,radio,-8.0,-12.0,345,245)
+bolaAmarilla= Ball(amarillo,radio,0,0,345,245)
 elementos.add(bolaAmarilla)
 
-bolaRoja= Ball(rojo,radio,5.0,15.0,1000,500)
+bolaRoja= Ball(rojo,radio,0,0,1000,500)
 elementos.add(bolaRoja)
 
 tacoBillar=Cue(Color,lenghtCue,widthCue,bolaAmarilla,100,100)
@@ -52,12 +52,15 @@ tacoBillar=Cue(Color,lenghtCue,widthCue,bolaAmarilla,100,100)
 
 
 
-bolaJugador=bolaBlanca
+bolaJugador=bolaAmarilla
 bolas=[bolaBlanca,bolaAmarilla,bolaRoja]
 
 countCarambola=0
-while carryOn:
+c=0
+"""while carryOn:
     ventana.fill(verdeMesa)
+    print(tacoBillar.c)
+    tacoBillar.Golpear(c)
     tacoBillar.Draw(ventana)
     pygame.draw.rect(ventana,verdePared, lado1)
     pygame.draw.rect(ventana,verdePared, lado2)
@@ -71,24 +74,35 @@ while carryOn:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             carryOn=False
-"""while carryOn:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print("pressed")"""
+while carryOn:
+    ventana.fill(verdeMesa)
     if bolaBlanca.mag_vel<=0.05 and bolaAmarilla.mag_vel<=0.05 and bolaRoja.mag_vel<=0.05:
-        carryOn=False
+        carryOn=True
+        #print(bolaAmarilla.mag_vel)
+        tacoBillar.Golpear()
+        tacoBillar.Draw(ventana)
     else:
+        #print(bolaAmarilla.mag_vel)
+        #tacoBillar.Golpear()
+        #tacoBillar.Draw(ventana)
         for bola in bolas:
-            bola.update()
-            if bola.rect.x>1152:
-                bola.velocity[0] = -bola.velocity[0]
-                bola.wall+=1
-            if bola.rect.x<20:
-                bola.velocity[0] = -bola.velocity[0]
-                bola.wall+=1
-            if bola.rect.y>552:
-                bola.velocity[1] = -bola.velocity[1]
-                bola.wall+=1
-            if bola.rect.y<20:
-                bola.velocity[1] = -bola.velocity[1]
-                bola.wall+=1
+            bola.updateVel()
+            if bola.mag_vel != 0:
+                bola.update()
+                if bola.rect.x>1150:
+                    bola.velocity[0] = -bola.velocity[0]
+                    bola.wall+=1
+                if bola.rect.x<22:
+                    bola.velocity[0] = -bola.velocity[0]
+                    bola.wall+=1
+                if bola.rect.y>550:
+                    bola.velocity[1] = -bola.velocity[1]
+                    bola.wall+=1
+                if bola.rect.y<22:
+                    bola.velocity[1] = -bola.velocity[1]
+                    bola.wall+=1
 
         for i in range(0,2):
             for j in range(i+1,3):
@@ -100,7 +114,7 @@ while carryOn:
                         bolas[j].hit+=1
                         
 
-    ventana.fill(verdeMesa)
+    
     pygame.draw.rect(ventana,verdePared, lado1)
     pygame.draw.rect(ventana,verdePared, lado2)
     pygame.draw.rect(ventana,verdePared, lado3)
@@ -111,13 +125,9 @@ while carryOn:
     pygame.display.flip()
     clock.tick(40)
     click = pygame.mouse.get_pressed()
-    print(click[0])
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             carryOn=False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                print("pressed")
 c=0
 for bola in bolas:
     if bola.hit >=1:
@@ -126,7 +136,7 @@ for bola in bolas:
         c+=1
 if c==0 and bolaJugador.wall>=3:
     countCarambola+=1
-print(countCarambola)"""
+print(countCarambola)
 
 pygame.quit()
 

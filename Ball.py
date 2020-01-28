@@ -2,7 +2,7 @@ import pygame
 import numpy as np
 import math
 Negro = (0,0,0)
-friction_coeff =0.05
+friction_coeff =0.005
 
  #definiendo la clase Ball
 class Ball(pygame.sprite.Sprite):
@@ -22,6 +22,7 @@ class Ball(pygame.sprite.Sprite):
         self.centerPosition= np.array([self.rect.x+radio, self.rect.y+radio])
         self.wall = 0
         self.hit = 0
+        self.radio = radio
         
     def update(self):
         norma = math.sqrt(self.velocity[0]**2+self.velocity[1]**2)
@@ -30,9 +31,14 @@ class Ball(pygame.sprite.Sprite):
         if cte2>0:
            self.rect.x += round(cte*self.velocity[0])
            self.rect.y += round(cte*self.velocity[1])
-           self.velocity*=cte2
+           self.velocity[0]*=cte2
+           self.velocity[1]*=cte2
            self.mag_vel = math.sqrt(self.velocity[0]**2+self.velocity[1]**2)
-        self.centerPosition= np.array([self.rect.x+radio, self.rect.y+radio])
+        self.centerPosition= np.array([self.rect.x+self.radio, self.rect.y+self.radio])
+
+    def updateVel(self):
+        self.mag_vel=math.sqrt(self.velocity[0]**2+self.velocity[1]**2)
+        
 
 
 class Choques(pygame.sprite.Sprite):
