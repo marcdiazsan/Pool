@@ -3,14 +3,14 @@ import numpy as np
 import math
 Negro = (0,0,0)
 Color = (200,200,200)
-
+rojo=(0,0,255)
 def normalize(v):
     norm = np.linalg.norm(v) 
     if norm == 0:
         return v 
     return v / norm
 
-
+1320,200,40,200
  #definiendo la clase Cue
 class Cue(pygame.sprite.Sprite):
     
@@ -37,19 +37,20 @@ class Cue(pygame.sprite.Sprite):
             self.start=np.array([Ball_x+math.cos(theta)*23,Ball_y+math.sin(theta)*23])
             self.end=np.array([Ball_x+math.cos(theta)*self.lenght,Ball_y+math.sin(theta)*self.lenght])
         pygame.draw.line(screen,self.color,(self.end[0],self.end[1]),(self.start[0],self.start[1]), self.width)
+        pygame.draw.polygon(screen,rojo,[(1320,400-self.c*2),(1320,400),(1360,400),(1360,400-self.c*2)])
+        
 
     def Golpear(self):
-        click = pygame.mouse.get_pressed()
+        click = pygame.mouse.get_pressed() 
         if click[0]==1:
             self.c +=1
-            if self.c > 50:
+            if self.c > 100:
                 self.c = 0
         elif click[0]==0 and self.c>0:
             n=normalize(self.start-self.end)
             self.target_ball.velocity[0]=n[0]*self.c
             self.target_ball.velocity[1]=n[1]*self.c
             self.target_ball.updateVel()
-            print(self.c)
             self.c = 0
             
             

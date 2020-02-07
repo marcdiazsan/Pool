@@ -8,6 +8,7 @@ import numpy as np
 import math
 
 #definiendo colores
+negro=(0,0,0)
 blanco=(255,255,255)
 amarillo=(255,128,0)
 rojo=(255,0,0)
@@ -19,7 +20,7 @@ lenghtCue=320
 widthCue=9
 #Ventana del Juego
 pygame.init()
-ventana = pygame.display.set_mode((1200, 600))
+ventana = pygame.display.set_mode((1500, 600))
 pygame.display.set_caption("Billar")
 bola8= pygame.image.load("descarga.png")
 pygame.display.set_icon(bola8)
@@ -33,6 +34,8 @@ lado1= pygame.Rect(0,0,20,600)
 lado2= pygame.Rect(0,0,1200,20)
 lado3= pygame.Rect(1180,20,20,600)
 lado4= pygame.Rect(0,580,1200,20)
+side=pygame.Rect(1200,0,300,600)
+bar=pygame.Rect(1320,200,40,200)
 
 elementos= pygame.sprite.Group()
 
@@ -47,46 +50,28 @@ bolaRoja= Ball(rojo,radio,0,0,1000,500)
 elementos.add(bolaRoja)
 
 tacoBillar=Cue(Color,lenghtCue,widthCue,bolaAmarilla,100,100)
-#tacoBillar.rect.x = bolaRoja.rect.x
-#tacoBillar.rect.y = bolaRoja.rect.y
 
-
+#sideWindow=Side_Window(negro)
+#elementos.add(sideWindow)
 
 bolaJugador=bolaAmarilla
 bolas=[bolaBlanca,bolaAmarilla,bolaRoja]
 
 countCarambola=0
 c=0
-"""while carryOn:
+while carryOn:
     ventana.fill(verdeMesa)
-    print(tacoBillar.c)
-    tacoBillar.Golpear(c)
-    tacoBillar.Draw(ventana)
     pygame.draw.rect(ventana,verdePared, lado1)
     pygame.draw.rect(ventana,verdePared, lado2)
     pygame.draw.rect(ventana,verdePared, lado3)
     pygame.draw.rect(ventana,verdePared, lado4)
-        
-    pygame.display.update()
-    elementos.draw(ventana)
-    pygame.display.flip()
-    clock.tick(40)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            carryOn=False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            print("pressed")"""
-while carryOn:
-    ventana.fill(verdeMesa)
+    pygame.draw.rect(ventana,negro, side)
+    pygame.draw.rect(ventana,blanco,bar)
     if bolaBlanca.mag_vel<=0.05 and bolaAmarilla.mag_vel<=0.05 and bolaRoja.mag_vel<=0.05:
         carryOn=True
-        #print(bolaAmarilla.mag_vel)
         tacoBillar.Golpear()
         tacoBillar.Draw(ventana)
     else:
-        #print(bolaAmarilla.mag_vel)
-        #tacoBillar.Golpear()
-        #tacoBillar.Draw(ventana)
         for bola in bolas:
             bola.updateVel()
             if bola.mag_vel != 0:
@@ -113,13 +98,6 @@ while carryOn:
                         bolas[i].hit+=1
                         bolas[j].hit+=1
                         
-
-    
-    pygame.draw.rect(ventana,verdePared, lado1)
-    pygame.draw.rect(ventana,verdePared, lado2)
-    pygame.draw.rect(ventana,verdePared, lado3)
-    pygame.draw.rect(ventana,verdePared, lado4)
-        
     pygame.display.update()
     elementos.draw(ventana)
     pygame.display.flip()

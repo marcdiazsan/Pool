@@ -2,7 +2,7 @@ import pygame
 import numpy as np
 import math
 Negro = (0,0,0)
-friction_coeff =0.005
+friction_coeff =0.002
 
  #definiendo la clase Ball
 class Ball(pygame.sprite.Sprite):
