@@ -2,7 +2,6 @@ import pygame,sys
 from pygame.locals import*
 from random import randint
 from Ball import Ball,Choques
-from Player import Player
 from Cue import Cue
 import numpy as np
 import math
